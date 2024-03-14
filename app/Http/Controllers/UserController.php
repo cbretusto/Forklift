@@ -65,7 +65,7 @@ class UserController extends Controller
     }
 
     public function getEmployeeID(){
-        $get_employee_no = RapidXUser::orderBy('employee_number', 'ASC')->whereNotNull('employee_number')->get();
+        $get_employee_no = RapidXUser::where('user_stat', 1)->orderBy('employee_number', 'DESC')->whereNotNull('employee_number')->get();
         return response()->json(['get_employee_no' => $get_employee_no]);
     }
 
@@ -74,7 +74,7 @@ class UserController extends Controller
         $pmi_employee = SystemOneHRIS::with(['department_info', 'section_info'])->where('EmpNo', $request->emp_no)->where('EmpStatus', 1)->get();
         $subcon_employee = SystemOneSubcon::with(['department_info', 'section_info'])->where('EmpNo', $request->emp_no)->where('EmpStatus', 1)->where('logdel', 0)->get();
         $result = $pmi_employee->toBase()->merge($subcon_employee);
-        // return $result;
+
         if(count($result) > 0){
             return response()->json(['rapidx_employee_no' => $rapidx_employee_no, 'result' => $result]);
         }else{
@@ -213,7 +213,6 @@ class UserController extends Controller
 
         session_start();
         // $rapidx_user_id = $_SESSION['rapidx_user_id'];
-        // return 'qwewqe';
         $data = $request->all();
         $validator = Validator::make($data, [
             'approver_employee_no'  => 'required',
@@ -226,12 +225,9 @@ class UserController extends Controller
             try {
                 $update = User::where('id', $request->approver_id)->where('logdel', 0)->where('status', 1)->get();
                 $for_traffic_sr_supervisor_only = User::where('employee_no', $request->approver_employee_no)->where('classification', 'Traffic Sr. Supervisor')->where('logdel', 0)->where('status', 1)->get();
-                // return $update;
-                // return count($for_traffic_sr_supervisor_only);
+
                 if(count($update) > 0){
-                    // return $request;
                     if($update[0]->classification != 'Traffic Sr. Supervisor' || $update[0]->employee_no != $request->approver_employee_no){
-                        // return 'ONE';
                         User::where('id', $request->approver_id)->update([
                             'classification'    => null,
                             'updated_at'        => date('Y-m-d H:i:s'),
@@ -243,19 +239,16 @@ class UserController extends Controller
                         ]);
                         $result = 1;
                     }else{
-                        // return 'TWO';
                         $result = 2;
                     }
                 }else{
                     if(count($for_traffic_sr_supervisor_only) == 0){
-                        // return 'THREE';
                         User::where('employee_no', $request->approver_employee_no)->update([
                             'classification'    => $request->classification,
                             'updated_at'        => date('Y-m-d H:i:s'),
                         ]);
                         $result = 1;
                     }else{
-                        // return 'FOUR';
                         $result = 2;
                     }
                 }

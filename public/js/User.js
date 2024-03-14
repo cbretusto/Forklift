@@ -15,7 +15,7 @@ function GetEmployeeNo(cboElement){
         result = '';
 
         if(response['get_employee_no'].length > 0){
-            result = '<option selected disabled> Employee No. </option>';
+            result = '<option selected value="" disabled> Employee No. </option>';
             for(let index = 0; index < response['get_employee_no'].length; index++){
                 result += '<option value="' + response['get_employee_no'][index].employee_number+'">'+ response['get_employee_no'][index].employee_number+'</option>';
             }
@@ -291,6 +291,7 @@ function Approver(){
                 $("#formApprover")[0].reset();
                 $('#modalApprover').modal('hide');
                 toastr.success('Succesfully saved!');
+                dataTableUsers.draw();
                 dataTableApprover.draw();
             }else{
                 alert('User is already exist!')

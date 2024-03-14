@@ -48,7 +48,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title" style="margin-top: 8px;">Forklift Request</h3>
-                                {{-- <button class="btn float-right reload"><i class="fas fa-sync-alt"></i></button> --}}
                             </div>
                             <div class="card-body">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -71,7 +70,6 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="forkliftRequest" role="tabpanel">
                                         <div class="text-right mt-4">                   
-                                            {{-- <button type="button" class="btn btn-dark mb-3" id="buttonAddForkliftRequest" data-bs-toggle="modal" data-bs-target="#modalForkliftRequest"><i class="fa fa-plus fa-md"></i> New Request</button> --}}
                                             <button type="button" class="btn btn-dark mb-3" id="buttonAddForkliftRequest"><i class="fa fa-plus fa-md"></i> New Request</button>
                                         </div>
                                         <div class="table-responsive">
@@ -259,7 +257,6 @@
                                         </div>
                                         
                                         @if ( \Carbon\Carbon::now()->format('H:i:s') <= '16:30:00' )
-                                        {{-- @if ( \Carbon\Carbon::now()->format('H:i:s') <= '19:30:00' ) --}}
                                             <div class="form-group col-sm-6 flex-column d-flex"> 
                                                 <label for="traffic_sr_supervisor_approver" class="form-label">Traffic Sr. Supervisor:<span class="text-danger" title="Required"></span></label>
                                                 <input type="text" class="form-control slctEmployeeName" name="traffic_sr_supervisor_approver" id="textTrafficSrSupervisorApprover" placeholder="Traffic Sr. Supervisor" value="" readonly>

@@ -12,9 +12,6 @@ use Mail;
 use Auth; // or use Illuminate\Support\Facades\Auth;
 use DataTables;
 
-/**
- * Import Models here
- */
 use App\Models\ForkliftRequest;
 use App\Models\ForkliftRequestApprover;
 use App\Models\User;
@@ -25,8 +22,6 @@ class ForkliftRequestController extends Controller
         session_start();
         $rapidx_employee_no = $_SESSION['rapidx_employee_number'];
         $requestDetails = ForkliftRequest::with([
-            // 'forklift_request_approver_info', 
-            // 'employee_info', 
             'employee_info.rapidx_user_info',
             'forklift_request_approver_info.requestor_approver_info', 
             'forklift_request_approver_info.department_approver_info', 
@@ -40,8 +35,6 @@ class ForkliftRequestController extends Controller
         return DataTables::of($requestDetails)
         ->addColumn('action', function($requestDetail) use($rapidx_employee_no){
             $result =   '<center>';
-            // $result .=   $requestDetail->forklift_request_approver_info->traffic_sr_supervisor_approver;
-
             if($requestDetail->employee_no == $rapidx_employee_no && $requestDetail->approval_status != 4){
                 $result .= '<button type="button" class="btn btn-dark btn-xs text-center actionEditForkliftRequest mr-1 w-75" forklift_request-id="' . $requestDetail->id . '" data-bs-toggle="modal" data-bs-target="#modalForkliftRequest" title="Edit Forklift Request"><i class="fa fa-xl fa-edit1"></i> Edit </button>';
                 $result .= "<br>";
